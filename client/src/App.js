@@ -21,35 +21,53 @@ import UserSignOut from './components/UserSignOut';
 import './styles/global.css';
 
 class App extends Component {
-
-  state = {
-    data: []
+  constructor(props) {
+    super(props);
+      this.state = {
+        user: {
+          id: '',
+          firstName: '',
+          lastName: '',
+          emailAddress: '',
+          password: '',
+          isAuthenticated: false
+        }
+      };
+      this.signIn = this.signIn.bind(this);
   }
 
-  // componentDidMount() {
-  //   fetch('http://localhost:5000/api/courses')
-  //   .then(res => res.json())
-  //   .then((resData) => {
-  //     this.setState({
-  //       data: resData
-  //     });
-  //   })
-  //   .catch(console.log)
-  // }
 
-  // componentDidMount() {
-  //   axios.get('http://localhost:5000/api/courses')
-  //     .then((resData) => {
-  //       this.setState({
-  //         data: resData.data
-  //       });
-  //     })
-  //     .catch(err => console.log(err));
-  // }
+  signIn(emailAddress, password) {
 
+    //get user and set the state to the current user
+
+    const url = 'http://localhost:5000/api/users';
+    //add authentication as a param in the axios get request
+    axios.get(url)
+      .then(res => {
+        if (res.status === 200) {
+          this.setState({
+            user: {
+              id: res.data.id,
+              firstName: res.data.firstName,
+              lastName: res.data.lastName,
+              emailAddress: res.data.emailAddress,
+              password: res.data.password,
+              isAuthenticated: true
+            }
+          });
+        }
+        console.log(`User ${res.data.emailAddress} has been Authenticated`);
+      })
+      .catch((err) => console.log(`An Error Occured During Authentication ${err}`))
+
+  }
   render(){
     return (
-      <Provider>
+      <Provider value={{
+        state: this.state.user,
+        signIn: this.signIn
+      }}>
         <BrowserRouter>
           <div>
             <Header />
@@ -57,7 +75,7 @@ class App extends Component {
               <Route exact path="/" render={() => <Courses />} />
               <Route exact path="/courses/create" render={() => <CreateCourse />} />
               <Route exact path="/courses/:id/update" render={() => <UpdateCourse />} />
-              <Route exact path="/courses/:id" render={() => <CourseDetail />} />
+              <Route exact path="/courses/:id" render={(props) => <CourseDetail {...props}/>} />
               <Route exact path="/signin" render={() => <UserSignIn />} />
               <Route exact path="/signup" render={() => <UserSignUp />} />
               <Route exact path="/signout" render={() => <UserSignOut />} />
@@ -67,25 +85,6 @@ class App extends Component {
       </Provider>
     );
   }
-
-  //test for rendering a list of course data to the page
-  // render(){
-  //   return (
-  //     <div>
-  //       {this.state.data.map(course => 
-  //         <div>
-  //           <ul>
-  //             <li>{course.id}</li>
-  //             <li>{course.title}</li>
-  //             <li>{course.description}</li>
-  //             <li>{course.userId}</li>
-  //           </ul>
-            
-  //         </div>
-  //       )}
-  //     </div>
-  //   );
-  // }
 }
 
 export default App;

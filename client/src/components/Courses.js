@@ -16,7 +16,8 @@ export default class Courses extends Component {
             courses: []
         };
     }
-
+    
+    // fetch the courses data and set state
     componentDidMount() {
         axios.get('http://localhost:5000/api/courses')
             .then(res => {
@@ -24,31 +25,22 @@ export default class Courses extends Component {
                     courses: res.data
                 }); 
             })
-            .catch(console.log('Failed to get courses from API'))
+            .catch((err)=>{
+                console.log(err);
+            })
     }
-
-    // componentDidMount() {
-    //     axios.get('http://localhost:5000/api/courses')
-    //         .then(res => {
-    //             this.setState({ 
-    //                 courses: res.data
-    //             });
-    //         })
-    //         .catch(console.log);
-    // }
-
-
 
     render() {
         return(
             <main>
                 <div className="wrap main--grid">
+                    {/* map over courses and render links to course descriptions */}
                     {this.state.courses.map( (course) => 
-                        <div>
-                        <NavLink className="course--module course--link" to={`/courses/${course.id}`}>
-                            <h2 className="course--label">Course</h2>
-                            <h3 className="course--title">{course.title}</h3>
-                        </NavLink>
+                        <div key={course.id}>
+                            <NavLink className="course--module course--link" to={`/courses/${course.id}`}>
+                                <h2 className="course--label">Course</h2>
+                                <h3 className="course--title">{course.title}</h3>
+                            </NavLink>
                         </div>
                     )}
 
