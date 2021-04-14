@@ -6,7 +6,7 @@ to the API's "/api/courses" route.
 It also renders a "Cancel" button that returns the client to the course list.
 */
 
-import React, {Component} from React;
+import React, {Component} from 'react';
 
 export default class CreateCourse extends Component {
     render(){
