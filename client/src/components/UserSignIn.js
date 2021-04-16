@@ -6,23 +6,48 @@ a "Cancel" button that returns the user to the course list
 */
 
 import React, {Component} from 'react';
+import { NavLink } from 'react-router-dom';
+import { Consumer } from './context';
+
+
+
 
 export default class UserSignIn extends Component {
+    constructor() {
+        super();
+        this.state = {
+            emailAddress: '',
+            password: ''
+        };
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+    
+
     render() {
         return(
-            <div class="form--centered">
-                <h2>Sign In</h2>
-                
-                {/* <form>
-                    <label for="emailAddress">Email Address</label>
-                    <input id="emailAddress" name="emailAddress" type="email" value="">
-                    <label for="password">Password</label>
-                    <input id="password" name="password" type="password" value="">
-                    <button class="button" type="submit">Sign In</button><button class="button button-secondary" onclick="event.preventDefault(); location.href='index.html';">Cancel</button>
-                </form> */}
-                <p>Don't have a user account? Click here to <a href="sign-up.html">sign up</a>!</p>
-                
-            </div>
+            <Consumer>
+            {context => (
+                <div className="form--centered">
+                    <h2>Sign In</h2>
+                    
+                    <form>
+                        <label htmlFor="emailAddress">Email Address</label>
+                        <input id="emailAddress" name="emailAddress" type="email" placeholder="joesmith@email.com" value={this.state.emailAddress} onChange={this.handleChange}/>
+                        <label htmlFor="password">Password</label>
+                        <input id="password" name="password" type="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/>
+                        <button className="button" type="submit">Sign In</button>
+                        <NavLink className="button button-secondary" to="/">Cancel</NavLink>
+                    </form>
+                    <p>Don't have a user account? Click here to <NavLink to="/signup">sign up</NavLink>!</p>
+                </div>
+            )}   
+            </Consumer>
         );
     }
 }

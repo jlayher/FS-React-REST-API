@@ -25,9 +25,10 @@ class CourseDetail extends Component {
         this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
     }
 
-    componentDidMount() {
-        const { id } = this.props.match.params;
-        axios.get(`http://localhost:5000/api/courses/${id}`)
+    //attempting to add async await again
+    async componentDidMount() {
+        const { id } = await this.props.match.params;
+        await axios.get(`http://localhost:5000/api/courses/${id}`)
             .then(res => {
                 this.setState({ course: res.data, user: res.data.User});
             })
@@ -42,6 +43,11 @@ class CourseDetail extends Component {
         const { id } = this.props.match.params;
         const url = `http://localhost:5000/api/courses/${id}`;
 
+        // Double check this section after authentication is set up.  
+        // Should check if the user is signed in before presenting the "confirm delete" window,
+        // and if the user is not signed in, or does not have proper authentication,
+        // show the alert window "You do not have permission..." first, and don't show the confirm window
+        // or simply remove the user name from the confirm window so that it doesn't say "underfined"
         if ( window.confirm(`${this.state.firstName} are you sure you want to DELETE ${this.state.course.title}?`)) {
             axios.delete(url, {
                 auth: {
@@ -92,9 +98,10 @@ class CourseDetail extends Component {
                                         <p>{this.state.course.estimatedTime}</p>
 
                                         <h3 className="course--detail--title">Materials Needed</h3>
-                                        <ul className="course--detail--list">
-                                            <ReactMarkdown source={this.state.course.materialsNeeded} />
-                                        </ul>
+                                        {/* commented out the <ul> because the <ReactMardown> Component wasn't rendering correctly*/}
+                                        {/* <ul className="course--detail--list"> */}
+                                        <ReactMarkdown source={this.state.course.materialsNeeded} />
+                                        {/* </ul> */}
                                     </div>
                                 </div>
                             </form>
@@ -107,6 +114,9 @@ class CourseDetail extends Component {
 }
 
 //Double Check This Code.  Intended use is using props outside the render method, 
+
+//Check to see that this is working correctly after authentication is set up.  
+//I use the value prop here, and also use context throughout.  It could be easier to call context, value instead
 export default props => (
     <Consumer>
         {context => <CourseDetail {...props} value={context} />}

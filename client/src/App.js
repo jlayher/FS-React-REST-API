@@ -34,6 +34,7 @@ class App extends Component {
         }
       };
       this.signIn = this.signIn.bind(this);
+      this.signOut = this.signOut.bind(this);
   }
 
 
@@ -43,7 +44,12 @@ class App extends Component {
 
     const url = 'http://localhost:5000/api/users';
     //add authentication as a param in the axios get request
-    axios.get(url)
+    axios.get(url, {
+      auth: {
+        username: emailAddress,
+        password
+      }
+    })
       .then(res => {
         if (res.status === 200) {
           this.setState({
@@ -57,11 +63,23 @@ class App extends Component {
             }
           });
         }
-        console.log(`User ${res.data.emailAddress} has been Authenticated`);
+        console.log(`${res.data.emailAddress} has been Authenticated`);
       })
-      .catch((err) => console.log(`An Error Occured During Authentication ${err}`))
-
+      .catch((err) => console.log(`An Error Occured During Authentication: ${err}`))
   }
+
+  signOut() {
+    this.setState({
+      user: {
+        id: '',
+        firstName: '',
+        lastName: '',
+        emailAddress: '',
+        password: '',
+        isAuthenticated: false
+    }})
+  }
+
   render(){
     return (
       <Provider value={{
