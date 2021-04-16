@@ -40,6 +40,7 @@ class App extends Component {
 
   signIn(emailAddress, password) {
 
+
     //get user and set the state to the current user
 
     const url = 'http://localhost:5000/api/users';
@@ -62,10 +63,12 @@ class App extends Component {
               isAuthenticated: true
             }
           });
+          console.log(`${res.data.emailAddress} has been Authenticated`);
         }
-        console.log(`${res.data.emailAddress} has been Authenticated`);
       })
-      .catch((err) => console.log(`An Error Occured During Authentication: ${err}`))
+      .catch(err => {
+        window.alert(`An Error Occured During Authentication: ${err}`);
+      })
   }
 
   signOut() {
@@ -84,7 +87,8 @@ class App extends Component {
     return (
       <Provider value={{
         state: this.state.user,
-        signIn: this.signIn
+        signIn: this.signIn,
+        signOut: this.signOut
       }}>
         <BrowserRouter>
           <div>

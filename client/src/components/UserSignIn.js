@@ -9,9 +9,6 @@ import React, {Component} from 'react';
 import { NavLink } from 'react-router-dom';
 import { Consumer } from './context';
 
-
-
-
 export default class UserSignIn extends Component {
     constructor() {
         super();
@@ -27,7 +24,6 @@ export default class UserSignIn extends Component {
             [event.target.name]: event.target.value
         });
     }
-    
 
     render() {
         return(
@@ -35,13 +31,12 @@ export default class UserSignIn extends Component {
             {context => (
                 <div className="form--centered">
                     <h2>Sign In</h2>
-                    
                     <form>
                         <label htmlFor="emailAddress">Email Address</label>
                         <input id="emailAddress" name="emailAddress" type="email" placeholder="joesmith@email.com" value={this.state.emailAddress} onChange={this.handleChange}/>
                         <label htmlFor="password">Password</label>
                         <input id="password" name="password" type="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/>
-                        <button className="button" type="submit">Sign In</button>
+                        <NavLink to='/' className="button" onClick={() => context.signIn(this.state.emailAddress, this.state.password)} >Sign In</NavLink>
                         <NavLink className="button button-secondary" to="/">Cancel</NavLink>
                     </form>
                     <p>Don't have a user account? Click here to <NavLink to="/signup">sign up</NavLink>!</p>
