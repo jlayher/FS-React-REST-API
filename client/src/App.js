@@ -2,10 +2,11 @@ import React, {Component} from 'react';
 import axios from 'axios';
 
 //imports from React Router DOM
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 //import context
 import { Provider } from './components/context';
+
 
 //import components
 import Header from './components/Header';
@@ -39,8 +40,6 @@ class App extends Component {
 
 
   signIn(emailAddress, password) {
-
-
     //get user and set the state to the current user
 
     const url = 'http://localhost:5000/api/users';
@@ -90,7 +89,7 @@ class App extends Component {
         signIn: this.signIn,
         signOut: this.signOut
       }}>
-        <BrowserRouter>
+        <Router>
           <div>
             <Header />
             <Switch>
@@ -99,11 +98,11 @@ class App extends Component {
               <Route exact path="/courses/:id/update" render={() => <UpdateCourse />} />
               <Route exact path="/courses/:id" render={(props) => <CourseDetail {...props}/>} />
               <Route exact path="/signin" render={() => <UserSignIn />} />
-              <Route exact path="/signup" render={() => <UserSignUp />} />
+              <Route exact path="/signup" render={(props) => <UserSignUp {...props}/>} />
               <Route exact path="/signout" render={() => <UserSignOut />} />
             </Switch>
           </div>
-        </BrowserRouter>
+        </Router>
       </Provider>
     );
   }

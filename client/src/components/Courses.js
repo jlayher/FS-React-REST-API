@@ -18,8 +18,8 @@ export default class Courses extends Component {
     }
     
     // fetch the courses data and set courses state
-    componentDidMount() {
-        axios.get('http://localhost:5000/api/courses')
+    async componentDidMount() {
+        await axios.get('http://localhost:5000/api/courses')
             .then(res => {
                 this.setState({
                     courses: res.data

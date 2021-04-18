@@ -5,7 +5,7 @@ It also render a "Sign In" button which allows the user to sign in, as well as
 a "Cancel" button that returns the user to the course list
 */
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Consumer } from './context';
 
