@@ -15,9 +15,8 @@ class CreateCourse extends Component {
     constructor() {
         super()
         this.state ={
-            title: '',
-            author: '',
-            description: '',
+            courseTitle: '',
+            courseDescription: '',
             estimatedTime: '',
             materialsNeeded: ''
         }
@@ -34,24 +33,27 @@ class CreateCourse extends Component {
     // Axios POST Request Method (submits to /api/courses)
     //Use on the create course button
 
-    // handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     const url = 'http://localhost:5000/api/users';
-    //     if (this.state.password === this.state.confirmPassword) {
-    //         axios.post(url, {
-    //             firstName: this.state.firstName,
-    //             lastName: this.state.lastName,
-    //             emailAddress: this.state.emailAddress,
-    //             password: this.state.password
-    //         })
-    //         .then(res => {
-    //             this.props.value.signIn(this.state.emailAddress, this.state.password);
-    //             this.props.history.push('/');
-    //         })
-    //     } else {
-    //         window.alert("Your Password does not match your Confirmed Password");
-    //     }
-    // }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        const url = 'http://localhost:5000/api/courses';
+        axios({
+            method: 'post',
+            url: url,
+            auth: {
+                username: this.props.value.state.emailAddress,
+                password:  this.props.value.state.password
+            },
+            data: {
+                title: this.state.courseTitle,
+                description: this.state.courseDescription,
+                estimatedTime: this.state.estimatedTime,
+                materialsNeeded: this.state.materialsNeeded
+            }
+        })
+        .then(res => {
+            this.props.history.push(`/`);
+        })
+    }
     
 
 
@@ -74,13 +76,13 @@ class CreateCourse extends Component {
                                 <div className="main--flex">
                                     <div>
                                         <label htmlFor="courseTitle">Course Title</label>
-                                        <input id="courseTitle" name="courseTitle" type="text" placeholder="Title..." value={this.state.title} onChange={this.handleChange}/>
+                                        <input id="courseTitle" name="courseTitle" type="text" placeholder="Title..." value={this.state.courseTitle} onChange={this.handleChange}/>
 
                                         <label htmlFor="courseAuthor">Course Author</label>
-                                        <input id="courseAuthor" name="courseAuthor" type="text" placeholder="Author..." value={this.state.author} onChange={this.handleChange}/>
+                                        <input id="courseAuthor" name="courseAuthor" type="text" defaultValue={`${context.state.firstName} ${context.state.lastName}`} onChange={this.handleChange}/>
 
                                         <label htmlFor="courseDescription">Course Description</label>
-                                        <textarea id="courseDescription" name="courseDescription" placeholder="Description..." value={this.state.description} onChange={this.handleChange}></textarea>
+                                        <textarea id="courseDescription" name="courseDescription" placeholder="Description..." value={this.state.courseDescription} onChange={this.handleChange}></textarea>
                                     </div>
                                     <div>
                                         <label htmlFor="estimatedTime">Estimated Time</label>
@@ -90,8 +92,7 @@ class CreateCourse extends Component {
                                         <textarea id="materialsNeeded" name="materialsNeeded" placeholder="Materials Needed..." value={this.state.materialsNeeded} onChange={this.handleChange}></textarea>
                                     </div>
                                 </div>
-                                {/* Add an onClick prop that calls handleSubmit to the Create Course NavLink */}
-                                <NavLink className="button" to="/">Create Course</NavLink>
+                                <NavLink className="button" to="/" onClick={this.handleSubmit}>Create Course</NavLink>
                                 <NavLink className="button button-secondary" to="/">Cancel</NavLink>
                             </form>
                         </div>
