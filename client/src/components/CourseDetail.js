@@ -15,6 +15,9 @@ import { Consumer } from '../components/context';
 //import Markdown for Exceeds-Excpectations Requirements 
 import ReactMarkdown from 'react-markdown';
 
+//import js-cookies
+import Cookies from 'js-cookie';
+
 class CourseDetail extends Component {
     constructor() {
         super();
@@ -42,22 +45,25 @@ class CourseDetail extends Component {
         event.preventDefault();
         const { id } = this.props.match.params;
         const url = `http://localhost:5000/api/courses/${id}`;
-
+        console.log(id);
         // Double check this section after authentication is set up.  
         // Should check if the user is signed in before presenting the "confirm delete" window,
         // and if the user is not signed in, or does not have proper authentication,
         // show the alert window "You do not have permission..." first, and don't show the confirm window
         // or simply remove the user name from the confirm window so that it doesn't say "underfined"
-        if ( window.confirm(`${this.state.firstName} are you sure you want to DELETE ${this.state.course.title}?`)) {
+        if ( window.confirm(`Are you sure you want to DELETE ${this.state.course.title}?`)) {
             axios.delete(url, {
                 auth: {
-                    username: this.props.value.state.emailAddress,
-                    password: this.props.value.state.password
-                }
+                    username: Cookies.get('username'),
+                    password: Cookies.get('password')
+                },
+                //wtihCredentials: true
             })
+            // password: this.props.context.state.password
             .then(res => {
                 //redirect back to the Courses page
                 this.props.history.push('/')
+                console.log(`${this.props.value.state.emailAddress} ${this.props.value.state.password}`)
             })
             .catch((err) => {
                 window.alert("You do not have permission to delete this course");
@@ -116,7 +122,6 @@ class CourseDetail extends Component {
 //Double Check This Code.  Intended use is using props outside the render method, 
 
 //Check to see that this is working correctly after authentication is set up.  
-//I use the value prop here, and also use context throughout.  It could be easier to call context, value instead
 export default props => (
     <Consumer>
         {context => <CourseDetail {...props} value={context} />}

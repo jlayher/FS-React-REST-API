@@ -33,6 +33,8 @@ class CreateCourse extends Component {
     // Axios POST Request Method (submits to /api/courses)
     //Use on the create course button
 
+    //ADD CATCH STATEMENT!!!
+
     handleSubmit = (event) => {
         event.preventDefault();
         const url = 'http://localhost:5000/api/courses';
