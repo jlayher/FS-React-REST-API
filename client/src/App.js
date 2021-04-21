@@ -52,7 +52,6 @@ class App extends Component {
         username: emailAddress,
         password: password
       },
-      wtihCredentials: true
     })
       .then(res => {
         if (res.status === 200) {
@@ -66,8 +65,8 @@ class App extends Component {
               isAuthenticated: true
             }
           });
-          Cookies.set('username', JSON.stringify(emailAddress), {expires: 1})
-          Cookies.set('password', JSON.stringify(password), {expires: 1})
+          Cookies.set('username', emailAddress, {expires: 1})
+          Cookies.set('password', password, {expires: 1})
           console.log(`${res.data.emailAddress} has been Authenticated`);
         }
       })
