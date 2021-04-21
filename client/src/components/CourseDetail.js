@@ -82,8 +82,14 @@ class CourseDetail extends Component {
                     <main>
                         <div className="actions--bar">
                             <div className="wrap">
-                                <NavLink className="button" to={`/courses/${this.state.course.id}/update`}>Update Course</NavLink>
-                                <NavLink className="button" to={`/courses/${this.state.course.id}`} onClick={this.handleDeleteCourse}>Delete Course</NavLink>
+                            {context.state.isAuthenticated && this.state.course.userId === context.state.id ? (
+                                <span>
+                                    <NavLink className="button" to={`/courses/${this.state.course.id}/update`}>Update Course</NavLink>
+                                    <NavLink className="button" to={`/courses/${this.state.course.id}`} onClick={this.handleDeleteCourse}>Delete Course</NavLink>
+                                </span>
+                            ) : (
+                                null
+                            )}
                                 <NavLink className="button button-secondary" to='/'>Return to List</NavLink>
                             </div>
                         </div>

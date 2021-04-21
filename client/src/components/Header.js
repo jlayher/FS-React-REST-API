@@ -6,20 +6,33 @@ It displays a menu bar for the application and includes
 */
 import React from "react";
 import { Link } from "react-router-dom";
+import { Consumer } from "./context";
 
-const Header = () => {
+const Header = (props) => {
     return(
-        <header>
-            <div className="wrap header--flex">
-                <h1 className="header--logo"><Link to="/">Courses</Link></h1>
-                <nav>
-                    <ul className="header--signedout">
-                        <li><Link to="/signup">Sign Up</Link></li>
-                        <li><Link to="/signin">Sign In</Link></li>
-                    </ul>
-                </nav>
-            </div>
-        </header>
+        <Consumer>
+            {context => (
+                <header>
+                    <div className="wrap header--flex">
+                        <h1 className="header--logo"><Link to="/">Courses</Link></h1>
+                        <nav>
+                            {context.state.isAuthenticated ? (
+                                <ul className="header--signedin">
+                                    <li>Welcome, {context.state.firstName} {context.state.lastName}!</li>
+                                    <li><Link to="/signout">Sign Out</Link></li>
+                                </ul>
+                            ) : (
+                                <ul className="header--signedout">
+                                    <li><Link to="/signup">Sign Up</Link></li>
+                                    <li><Link to="/signin">Sign In</Link></li>
+                                </ul>
+                            )}
+                        </nav>
+                    </div>
+                </header>
+            )}
+        </Consumer>
+
     );
 }
 
