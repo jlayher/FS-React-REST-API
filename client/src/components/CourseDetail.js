@@ -57,9 +57,7 @@ class CourseDetail extends Component {
                     username: Cookies.get('username'),
                     password: Cookies.get('password')
                 },
-                //wtihCredentials: true
             })
-            // password: this.props.context.state.password
             .then(res => {
                 //redirect back to the Courses page
                 this.props.history.push('/')

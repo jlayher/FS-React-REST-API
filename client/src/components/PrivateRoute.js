@@ -1,11 +1,25 @@
-// import React, { Component } from "react";
+import React, { Component } from "react";
 
 
-// const PrivateRoute = ({ component: Component, ...rest}) => (
-//     <Route {...rest} render={props => (
-//         <Component {...props}/>
-//     ) : (
-//         <Redirect to={{pathname: '/'}}
-//     )
-//     )}
-// )
+function PrivateRoute({ children, ...rest }) {
+    let auth = useAuth();
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          auth.user ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      />
+    );
+  }
+
+export default PrivateRoute;

@@ -11,6 +11,10 @@ import { NavLink } from 'react-router-dom';
 import { Consumer } from './context';
 import axios from 'axios';
 
+//import js-cookies
+import Cookies from 'js-cookie';
+
+
 class CreateCourse extends Component {
     constructor() {
         super()
@@ -21,7 +25,7 @@ class CreateCourse extends Component {
             materialsNeeded: ''
         }
         this.handleChange = this.handleChange.bind(this);
-        //this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange = (event) => {
@@ -35,15 +39,16 @@ class CreateCourse extends Component {
 
     //ADD CATCH STATEMENT!!!
 
+
+    //This Gives a 404 Error
     handleSubmit = (event) => {
         event.preventDefault();
         const url = 'http://localhost:5000/api/courses';
-        axios({
-            method: 'post',
-            url: url,
+        axios.post({
+            url: 'http://localhost:5000/api/courses',
             auth: {
-                username: this.props.value.state.emailAddress,
-                password:  this.props.value.state.password
+                username: Cookies.get('username'),
+                password: Cookies.get('password')
             },
             data: {
                 title: this.state.courseTitle,
@@ -56,6 +61,30 @@ class CreateCourse extends Component {
             this.props.history.push(`/`);
         })
     }
+
+
+    //This gives a 500 error.  The only difference is whether post is in the "method" prop (seen below) or if it is chained using dot notation (above)
+    // handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     const url = 'http://localhost:5000/api/courses';
+    //     axios({
+    //         method: 'post',
+    //         url: url,
+    //         auth: {
+    //             username: Cookies.get('username'),
+    //             password: Cookies.get('password')
+    //         },
+    //         data: {
+    //             title: this.state.courseTitle,
+    //             description: this.state.courseDescription,
+    //             estimatedTime: this.state.estimatedTime,
+    //             materialsNeeded: this.state.materialsNeeded
+    //         }
+    //     })
+    //     .then(res => {
+    //         this.props.history.push(`/`);
+    //     })
+    // }
     
 
 

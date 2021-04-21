@@ -103,7 +103,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" render={() => <Courses />} />
               <Route exact path="/courses/create" render={() => <CreateCourse />} />
-              <Route exact path="/courses/:id/update" render={() => <UpdateCourse />} />
+              <Route exact path="/courses/:id/update" render={(props) => <UpdateCourse {...props}/>} />
               <Route exact path="/courses/:id" render={(props) => <CourseDetail {...props}/>} />
               <Route exact path="/signin" render={() => <UserSignIn />} />
               <Route exact path="/signup" render={(props) => <UserSignUp {...props}/>} />
