@@ -20,6 +20,7 @@ import CourseDetail from './components/CourseDetail';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
+import PrivateRoute from './components/PrivateRoute';
 
 //import styles
 import './styles/global.css';
@@ -105,8 +106,8 @@ class App extends Component {
                 {<Redirect to="/courses"/>}
               </Route>
               <Route exact path="/courses" render={() => <Courses />} />
-              <Route exact path="/courses/create" render={(props) => <CreateCourse {...props}/>} />
-              <Route exact path="/courses/:id/update" render={(props) => <UpdateCourse {...props}/>} />
+              <PrivateRoute exact path="/courses/create" component={ CreateCourse } user={this.state.user}/>
+              <PrivateRoute exact path="/courses/:id/update" component={ UpdateCourse } user={this.state.user}/>
               <Route exact path="/courses/:id" render={(props) => <CourseDetail {...props}/>} />
               <Route exact path="/signin" render={() => <UserSignIn />} />
               <Route exact path="/signup" render={(props) => <UserSignUp {...props}/>} />
