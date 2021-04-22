@@ -27,7 +27,7 @@ export default class Courses extends Component {
             .then(res => {
                 this.setState({
                     courses: res.data
-                }); 
+                });
             })
             .catch((err)=>{
                 console.log(err);

@@ -92,7 +92,7 @@ class UpdateCourse extends Component {
                                             name="courseTitle" 
                                             type="text" 
                                             placeholder={placeholderTitle} 
-                                            value={this.state.Coursetitle} 
+                                            value={this.state.courseTitle} 
                                             onChange={this.handleChange} />
 
                                         <label htmlFor="courseAuthor">Course Author</label>
@@ -107,8 +107,8 @@ class UpdateCourse extends Component {
                                         <textarea 
                                             id="courseDescription" 
                                             name="courseDescription" 
-                                            placeholder={this.state.courseDescription}
-                                            value={placeholderDescription} 
+                                            placeholder= {placeholderDescription}
+                                            value= {this.state.courseDescription}
                                             onChange={this.handleChange}>
                                         </textarea>
                                     </div>
@@ -132,7 +132,6 @@ class UpdateCourse extends Component {
                                     </div>
                                 </div>
                                 <NavLink className="button" to={`/courses/${id}`} onClick={this.handleSubmit}>Update Course</NavLink>
-                                {/* Cancel Button links to the Course Description Page for Current Course */}
                                 <NavLink to={`/courses/${id}`} className="button button-secondary">Cancel</NavLink>
                             </form>
                         </div>

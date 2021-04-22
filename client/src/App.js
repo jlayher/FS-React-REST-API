@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 
 //imports from React Router DOM
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 //import js-cookies
 import Cookies from 'js-cookie';
@@ -101,8 +101,11 @@ class App extends Component {
           <div>
             <Header />
             <Switch>
-              <Route exact path="/" render={() => <Courses />} />
-              <Route exact path="/courses/create" render={() => <CreateCourse />} />
+              <Route exact path="/">
+                {<Redirect to="/courses"/>}
+              </Route>
+              <Route exact path="/courses" render={() => <Courses />} />
+              <Route exact path="/courses/create" render={(props) => <CreateCourse {...props}/>} />
               <Route exact path="/courses/:id/update" render={(props) => <UpdateCourse {...props}/>} />
               <Route exact path="/courses/:id" render={(props) => <CourseDetail {...props}/>} />
               <Route exact path="/signin" render={() => <UserSignIn />} />
