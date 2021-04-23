@@ -22,6 +22,7 @@ class UpdateCourse extends Component {
             courseDescription: '',
             estimatedTime: '',
             materialsNeeded: '',
+            errors: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,6 +52,8 @@ class UpdateCourse extends Component {
         event.preventDefault();
         const {id} = this.props.match.params;
         const url = `http://localhost:5000/api/courses/${id}`;
+        this.setState({errors: []});
+
         axios({
             method: 'put',
             url: url,
@@ -69,7 +72,11 @@ class UpdateCourse extends Component {
             this.props.history.push(`/courses/${id}`)
         })
         .catch((err) => {
-            console.log(err)
+            if(err.response.status === 400) {
+                this.setState({
+                    errors: err.response.data.errors
+                })
+            } 
         })
     }
 
@@ -84,13 +91,16 @@ class UpdateCourse extends Component {
                         <div className="wrap">
                             <h2>Update Course</h2>
                             {/* Validation Errors */}
-                            {/* <div class="validation--errors">
-                                <h3>Validation Errors</h3>
-                                <ul>
-                                    <li>Please provide a value for "Title"</li>
-                                    <li>Please provide a value for "Description"</li>
-                                </ul>
-                            </div> */}
+                            {this.state.errors.length > 0 && (
+                                <div className="validation--errors">
+                                    <h3>Validation Errors</h3>
+                                    <ul>
+                                        {this.state.errors.map((error, i) =>(
+                                            <li key={i}>{error}</li>
+                                        ))}
+                                    </ul>
+                                </div> 
+                            )}
                             <form>
                                 <div className="main--flex">
                                     <div>

@@ -38,10 +38,7 @@ class CreateCourse extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         const url = 'http://localhost:5000/api/courses';
-
-        this.setState({
-            errors: []
-        });
+        this.setState({errors: []});
 
         axios({
             method: 'post',
@@ -79,11 +76,11 @@ class CreateCourse extends Component {
                             <h2>Create Course</h2>
                             {/* Validation Errors */}
                             {this.state.errors.length > 0 && (
-                                <div class="validation--errors">
+                                <div className="validation--errors">
                                     <h3>Validation Errors</h3>
                                     <ul>
-                                        {this.state.errors.map((error) =>(
-                                            <li>{error}</li>
+                                        {this.state.errors.map((error, i) =>(
+                                            <li key={i}>{error}</li>
                                         ))}
                                     </ul>
                                 </div> 
@@ -144,11 +141,9 @@ class CreateCourse extends Component {
                     </main>
                 )}
             </Consumer>
-            
         );
     }
 }
-
 
 export default props => (
     <Consumer>
