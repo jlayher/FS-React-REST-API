@@ -19,7 +19,8 @@ class UserSignUp extends Component {
             lastName: '',
             emailAddress: '',
             password: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            errors: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,15 +43,22 @@ class UserSignUp extends Component {
                     //cancel the submission
                     //setState of password and confirmPassword to empty strings (persist the name and email input's state)
 
+
+
     handleSubmit = (event) => {
         event.preventDefault();
         const url = 'http://localhost:5000/api/users';
         if (this.state.password === this.state.confirmPassword) {
-            axios.post(url, {
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                emailAddress: this.state.emailAddress,
-                password: this.state.password
+            axios({
+                method: 'post',
+                url: url,
+                data:
+                {
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName,
+                    emailAddress: this.state.emailAddress,
+                    password: this.state.password,
+                }
             })
             .then(res => {
                 this.props.value.signIn(this.state.emailAddress, this.state.password);
@@ -61,6 +69,26 @@ class UserSignUp extends Component {
         }
     }
 
+    // handleSubmit = (event) => {
+    //     event.preventDefault();
+    //     const url = 'http://localhost:5000/api/users';
+    //     if (this.state.password === this.state.confirmPassword) {
+    //         axios.post(url, {
+    //             firstName: this.state.firstName,
+    //             lastName: this.state.lastName,
+    //             emailAddress: this.state.emailAddress,
+    //             password: this.state.password,
+    //         })
+    //         .then(res => {
+    //             this.props.value.signIn(this.state.emailAddress, this.state.password);
+    //             this.props.history.push('/');
+    //         })
+    //     } else {
+    //         window.alert("Your Password does not match your Confirmed Password");
+    //     }
+    // }
+    
+
     render(){
         return(
             <Consumer>
@@ -68,6 +96,17 @@ class UserSignUp extends Component {
                     <main>
                         <div className="form--centered">
                             <h2>Sign Up</h2>
+                            {/* Validation Errors */}
+                            {/* map over using this.state.errors.map to create a new li for every error */}
+                            {/* between the li tags, get the error value from the array using the index value {this.state.error[index]} */}
+                            {/* <div class="validation--errors">
+                                <h3>Validation Errors</h3>
+                                <ul>
+                                    
+                                    <li>Please provide a value for "Title"</li>
+                                    <li>Please provide a value for "Description"</li>
+                                </ul>
+                            </div> */}
                             <form>
                                 <label htmlFor="firstName">First Name</label>
                                 <input id="firstName" name="firstName" type="text" value={this.state.firstName} onChange={this.handleChange}/>
