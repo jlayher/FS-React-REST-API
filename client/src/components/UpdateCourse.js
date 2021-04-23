@@ -39,8 +39,13 @@ class UpdateCourse extends Component {
                     estimatedTime: res.data.estimatedTime,
                 });
             })
+            //Error Redirect Issues
             .catch((err) => {
-                console.log(err);
+                if(err.response.status === 404) {
+                    this.props.history.push('/notfound');
+                } else if(err.response.status === 500) {
+                    this.props.history.push('/error')
+                }
             });
     }
 
@@ -71,12 +76,17 @@ class UpdateCourse extends Component {
         .then(res => {
             this.props.history.push(`/courses/${id}`)
         })
+        //Error Redirect Issues
         .catch((err) => {
             if(err.response.status === 400) {
                 this.setState({
                     errors: err.response.data.errors
                 })
-            } 
+            } else if(err.response.status === 404){
+                this.props.history.push('/notfound')
+            } else if(err.response.status === 500){
+                this.props.history.push('/error')
+            }
         })
     }
 

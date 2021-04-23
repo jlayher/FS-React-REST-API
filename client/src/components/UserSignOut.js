@@ -18,23 +18,3 @@ export default function UserSignOut() {
         <Redirect to='/' />
     )
 }
-
-
-//Using Consumer
-/* Note, this causes an error in the console, however, the code works as expected.
-    Not sure how to remove this error:
-        "Cannot update during an existing state transition (such as within `render`).
-        Render methods should be a pure function of props and state."*/
-// const UserSignOut = (props) => {
-//     return(
-//         <>
-//         <Consumer>
-//             {context => context.signOut()}
-//         </Consumer>
-
-//         <Redirect to='/' />
-//         </>
-//     )
-// }
-
-//export default UserSignOut;

@@ -28,15 +28,19 @@ class CourseDetail extends Component {
         this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
     }
 
-    //attempting to add async await again
-    async componentDidMount() {
-        const { id } = await this.props.match.params;
-        await axios.get(`http://localhost:5000/api/courses/${id}`)
+    componentDidMount() {
+        const { id } = this.props.match.params;
+        axios.get(`http://localhost:5000/api/courses/${id}`)
             .then(res => {
                 this.setState({ course: res.data, user: res.data.User});
             })
-            .catch((err) => {
-                console.log("An Error Occured Fetching Course Data", err);
+            //Error Redirect Issues
+            .catch(error =>{
+                if(error.status === 404) {
+                    this.props.history.push('/notfound');
+                } else if(error.status === 500) {
+                    this.props.history.push('/error')
+                }
             });
     }
 
@@ -46,11 +50,6 @@ class CourseDetail extends Component {
         const { id } = this.props.match.params;
         const url = `http://localhost:5000/api/courses/${id}`;
         console.log(id);
-        // Double check this section after authentication is set up.  
-        // Should check if the user is signed in before presenting the "confirm delete" window,
-        // and if the user is not signed in, or does not have proper authentication,
-        // show the alert window "You do not have permission..." first, and don't show the confirm window
-        // or simply remove the user name from the confirm window so that it doesn't say "underfined"
         if ( window.confirm(`Are you sure you want to DELETE ${this.state.course.title}?`)) {
             axios.delete(url, {
                 auth: {
@@ -63,6 +62,7 @@ class CourseDetail extends Component {
                 this.props.history.push('/')
                 console.log(`${this.props.value.state.emailAddress} ${this.props.value.state.password}`)
             })
+            //Error Redirect Issues (just add 500 error)
             .catch((err) => {
                 window.alert("You do not have permission to delete this course");
                 console.log(err);
@@ -74,9 +74,6 @@ class CourseDetail extends Component {
         return (
             <Consumer>
                 {context => (
-                    //any variables or functions go here
-
-                    //return JSX
                     <main>
                         <div className="actions--bar">
                             <div className="wrap">

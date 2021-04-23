@@ -20,6 +20,11 @@ import CourseDetail from './components/CourseDetail';
 import UserSignIn from './components/UserSignIn';
 import UserSignUp from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
+
+import Forbidden from './components/Forbidden';
+import UnhandledError from './components/UnhandledError';
+import NotFound from './components/NotFound';
+
 import PrivateRoute from './components/PrivateRoute';
 
 //import styles
@@ -77,6 +82,7 @@ class App extends Component {
           //succeeded
           //this.props.history
           //history.push() last page
+
         }
       })
       .catch(err => {
@@ -84,8 +90,6 @@ class App extends Component {
         console.log(`An Error Occured During Authentication: ${err}`)
       })
   }
-
-
 
   signOut() {
     this.setState({
@@ -119,9 +123,12 @@ class App extends Component {
               <PrivateRoute exact path="/courses/create" component={ CreateCourse } user={this.state.user}/>
               <PrivateRoute exact path="/courses/:id/update" component={ UpdateCourse } user={this.state.user}/>
               <Route exact path="/courses/:id" render={(props) => <CourseDetail {...props}/>} />
-              <Route exact path="/signin" render={() => <UserSignIn />} />
+              <Route exact path="/signin" render={(props) => <UserSignIn {...props}/>} />
               <Route exact path="/signup" render={(props) => <UserSignUp {...props}/>} />
               <Route exact path="/signout" render={() => <UserSignOut />} />
+              <Route path="/forbidden" render={()=> <Forbidden />} />
+              <Route path="/error" render={() => <UnhandledError />} />
+              <Route component={NotFound} />
             </Switch>
           </div>
         </Router>
