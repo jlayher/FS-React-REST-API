@@ -42,12 +42,16 @@ class App extends Component {
       this.signOut = this.signOut.bind(this);
   }
 
+  componentDidMount() {
+    let username = Cookies.get("username");
+    let password = Cookies.get("password");
+    if (!this.state.isAuthenticated && username && password) {
+      this.signIn(username, password);
+    }
+  }
 
     signIn = async (emailAddress, password) => {
-    //get user and set the state to the current user
-
     const url = 'http://localhost:5000/api/users';
-    //add authentication as a param in the axios get request
     axios.get(url, {
       auth: {
         username: emailAddress,
@@ -69,6 +73,10 @@ class App extends Component {
           Cookies.set('username', emailAddress, {expires: 1})
           Cookies.set('password', password, {expires: 1})
           console.log(`${res.data.emailAddress} has been Authenticated`);
+
+          //succeeded
+          //this.props.history
+          //history.push() last page
         }
       })
       .catch(err => {
@@ -76,6 +84,8 @@ class App extends Component {
         console.log(`An Error Occured During Authentication: ${err}`)
       })
   }
+
+
 
   signOut() {
     this.setState({

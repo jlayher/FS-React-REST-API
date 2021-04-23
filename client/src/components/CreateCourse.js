@@ -22,7 +22,8 @@ class CreateCourse extends Component {
             courseTitle: '',
             courseDescription: '',
             estimatedTime: '',
-            materialsNeeded: ''
+            materialsNeeded: '',
+            errors: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -37,14 +38,14 @@ class CreateCourse extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         const url = 'http://localhost:5000/api/courses';
+
+        this.setState({
+            errors: []
+        });
+
         axios({
             method: 'post',
             url: url,
-            headers: {
-                userId: this.context.id,
-                //foreignKey: this.context.userId,
-            },
-            
             auth: {
                 username: Cookies.get('username'),
                 password: Cookies.get('password')
@@ -54,16 +55,18 @@ class CreateCourse extends Component {
                 description: this.state.courseDescription,
                 estimatedTime: this.state.estimatedTime,
                 materialsNeeded: this.state.materialsNeeded,
-                userId: this.context.id,
-                //userId: this.context.userId,
-                //foreignKey: this.context.userId
+                userId: this.props.context.state.id,
             }
         })
         .then(res => {
             this.props.history.push(`/`);
         })
         .catch((err) => {
-            console.log(err)
+            if(err.response.status === 400) {
+                this.setState({
+                    errors: err.response.data.errors
+                })
+            } 
         })
     }
     
@@ -75,13 +78,16 @@ class CreateCourse extends Component {
                         <div className="wrap">
                             <h2>Create Course</h2>
                             {/* Validation Errors */}
-                            {/* <div class="validation--errors">
-                                <h3>Validation Errors</h3>
-                                <ul>
-                                    <li>Please provide a value for "Title"</li>
-                                    <li>Please provide a value for "Description"</li>
-                                </ul>
-                            </div> */}
+                            {this.state.errors.length > 0 && (
+                                <div class="validation--errors">
+                                    <h3>Validation Errors</h3>
+                                    <ul>
+                                        {this.state.errors.map((error) =>(
+                                            <li>{error}</li>
+                                        ))}
+                                    </ul>
+                                </div> 
+                            )}
                             <form>
                                 <div className="main--flex">
                                     <div>

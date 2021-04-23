@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 //import Cookies from 'js-cookie';
 
-const UserContext = React.createContext();
+export const UserContext = React.createContext();
 
 export const Provider = UserContext.Provider;
 export const Consumer = UserContext.Consumer;
-
 
 // export class Provider extends Component {
 //     constructor(props) {
