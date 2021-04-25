@@ -27,6 +27,7 @@ class CreateCourse extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     handleChange(event) {
@@ -34,6 +35,11 @@ class CreateCourse extends Component {
         //console.log(this.context.props.userId);
         //console.log(this.context.props.userId);
      }
+
+    handleCancel(event) {
+        event.preventDefault();
+        this.props.history.push('/')
+    }
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -136,7 +142,7 @@ class CreateCourse extends Component {
                                 </div>
                                 {/* Change from NavLink to buttons */}
                                 <button className="button" type="submit">Create Course</button>
-                                <NavLink to="/"><button className="button button-secondary">Cancel</button></NavLink>
+                                <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
                                 
                                 {/* <NavLink className="button" to="/" onClick={this.handleSubmit}>Create Course</NavLink> */}
                                 {/* <NavLink className="button button-secondary" to="/">Cancel</NavLink> */}

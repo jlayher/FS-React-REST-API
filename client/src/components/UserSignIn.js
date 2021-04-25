@@ -9,7 +9,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Consumer } from './context';
 
-export default class UserSignIn extends Component {
+class UserSignIn extends Component {
     constructor() {
         super();
         this.state = {
@@ -17,6 +17,13 @@ export default class UserSignIn extends Component {
             password: ''
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleCancel(event) {
+        event.preventDefault();
+        this.props.history.push('/')
     }
 
     handleChange = (event) => {
@@ -24,6 +31,16 @@ export default class UserSignIn extends Component {
             [event.target.name]: event.target.value
         });
     }
+
+    //!!! IMPORTANT!!!
+    //This is probably where I will need to push prevHistory to redirect 
+    handleSubmit = () => {
+        const emailAddress = this.state.emailAddress;
+        const password = this.state.password;
+        this.context.signIn(emailAddress, password);
+    }
+
+
 //figure this part out with the sign in, redirecting with history, and getting the buttons to work correctly
 //not sure if treehouse is cool with the buttons being nested in NavLinks, even though they work fine
     render() {
@@ -32,7 +49,9 @@ export default class UserSignIn extends Component {
             {context => (
                 <div className="form--centered">
                     <h2>Sign In</h2>
-                    <form onSubmit={() => context.signIn(this.state.emailAddress, this.state.password)}>
+                    {/* <form onSubmit={() => context.signIn(this.state.emailAddress, this.state.password)}> */}
+                    {/* <form onSubmit={this.handleSubmit}> */}
+                    <form>
                         <label htmlFor="emailAddress">Email Address</label>
                         <input id="emailAddress" name="emailAddress" type="email" placeholder="joesmith@email.com" value={this.state.emailAddress} onChange={this.handleChange}/>
                         <label htmlFor="password">Password</label>
@@ -40,6 +59,10 @@ export default class UserSignIn extends Component {
                         {/* Change from NavLink to buttons */}
                         {/* <NavLink to='/'><button className="button" type="submit">Sign In</button></NavLink>
                         <NavLink to="/"><button className="button button-secondary">Cancel</button></NavLink> */}
+
+                        {/* <button className="button" type="submit">Sign In</button>
+                        <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button> */}
+
                         <NavLink to='/' className="button" onClick={() => context.signIn(this.state.emailAddress, this.state.password)} >Sign In</NavLink>
                         <NavLink className="button button-secondary" to="/">Cancel</NavLink>
                     </form>
@@ -50,3 +73,9 @@ export default class UserSignIn extends Component {
         );
     }
 }
+
+export default props => (
+    <Consumer>
+        {context => <UserSignIn {...props} value={context} />}
+    </Consumer>
+)

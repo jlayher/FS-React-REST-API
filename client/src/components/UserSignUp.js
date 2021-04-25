@@ -24,12 +24,18 @@ class UserSignUp extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+
+    handleCancel(event) {
+        event.preventDefault();
+        this.props.history.push('/')
     }
 
     handleSubmit = (event) => {
@@ -83,7 +89,7 @@ class UserSignUp extends Component {
                                     </ul>
                                 </div> 
                             )}
-                            <form>
+                            <form onSubmit={this.handleSubmit}>
                                 <label htmlFor="firstName">First Name</label>
                                 <input id="firstName" name="firstName" type="text" value={this.state.firstName} onChange={this.handleChange}/>
                                 <label htmlFor="lastName">Last Name</label>
@@ -95,8 +101,8 @@ class UserSignUp extends Component {
                                 <label htmlFor="confirmPassword">Confirm Password</label>
                                 <input id="confirmPassword" name="confirmPassword" type="password" value={this.state.confirmPassword} onChange={this.handleChange} />
                                 {/* Change from NavLink to buttons */}
-                                <NavLink className="button" to="/" onClick={this.handleSubmit}>Sign Up</NavLink>
-                                <NavLink className="button button-secondary" to="/">Cancel</NavLink>
+                                <button className="button" type="submit">Sign Up</button>
+                                <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
                             </form>
                             <p>Already have a user account? Click here to <NavLink to="/signin">sign in</NavLink>!</p>
                         </div>

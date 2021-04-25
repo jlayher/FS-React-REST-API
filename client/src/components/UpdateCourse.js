@@ -26,6 +26,7 @@ class UpdateCourse extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     async componentDidMount() {
@@ -52,6 +53,13 @@ class UpdateCourse extends Component {
     handleChange(event) {
         this.setState({ [event.target.name] : event.target.value });
      }
+
+     handleCancel(event) {
+         event.preventDefault();
+         const {id} = this.props.match.params;
+         this.props.history.push(`/courses/${id}`)
+     }
+
 
     handleSubmit = (event) => {
         event.preventDefault();
@@ -160,10 +168,8 @@ class UpdateCourse extends Component {
                                     </div>
                                 </div>
                                 {/* Change from NavLink to buttons */}
-                                <NavLink to={`/courses/${id}`}><button className="button" type="submit">Update Course</button></NavLink>
-                                <NavLink to="/"><button className="button button-secondary">Cancel</button></NavLink>
-                                {/* <NavLink className="button" to={`/courses/${id}`} onClick={this.handleSubmit}>Update Course</NavLink>
-                                <NavLink to={`/courses/${id}`} className="button button-secondary">Cancel</NavLink> */}
+                                <button className="button" type="submit">Update Course</button>
+                                <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
                             </form>
                         </div>
                     </main>
