@@ -7,7 +7,7 @@ a "Cancel" button that returns the user to the course list
 
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Consumer } from './context';
+import { Consumer, UserContext } from './context';
 
 class UserSignIn extends Component {
     constructor() {
@@ -20,6 +20,7 @@ class UserSignIn extends Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    static contextType = UserContext;
 
     handleCancel(event) {
         event.preventDefault();
@@ -34,37 +35,37 @@ class UserSignIn extends Component {
 
     //!!! IMPORTANT!!!
     //This is probably where I will need to push prevHistory to redirect 
-    handleSubmit = () => {
-        const emailAddress = this.state.emailAddress;
-        const password = this.state.password;
-        this.context.signIn(emailAddress, password);
+    handleSubmit = (event) => {
+        event.preventDefault();
+        //this line was working
+        let context = this.context;
+        // const {context} = this.props;
+        // const prevPage = this.props.location.state.from.pathname || { from: { pathname: '/' } };
+        const prevPage = this.props.history.location.state.from.pathname;
+        //const { from } = this.props.location.state || { from: { pathname: '/' } };
+        console.log(prevPage);
+        // console.log(from.pathname)
+
+        //something weird is going on here.  If I accidentally hit submit when I'm already signed in, authentication fails, 
+        //and I am pushed back to the previous page.
+        //but if authentication succeeds, I am logged in, but stay on the sign in page.  
+        this.props.history.push(prevPage);
+        context.signIn(this.state.emailAddress, this.state.password);
     }
 
-
-//figure this part out with the sign in, redirecting with history, and getting the buttons to work correctly
-//not sure if treehouse is cool with the buttons being nested in NavLinks, even though they work fine
     render() {
         return(
             <Consumer>
             {context => (
                 <div className="form--centered">
                     <h2>Sign In</h2>
-                    {/* <form onSubmit={() => context.signIn(this.state.emailAddress, this.state.password)}> */}
-                    {/* <form onSubmit={this.handleSubmit}> */}
-                    <form>
+                    <form onSubmit={this.handleSubmit}>
                         <label htmlFor="emailAddress">Email Address</label>
                         <input id="emailAddress" name="emailAddress" type="email" placeholder="joesmith@email.com" value={this.state.emailAddress} onChange={this.handleChange}/>
                         <label htmlFor="password">Password</label>
                         <input id="password" name="password" type="password" placeholder="password" value={this.state.password} onChange={this.handleChange}/>
-                        {/* Change from NavLink to buttons */}
-                        {/* <NavLink to='/'><button className="button" type="submit">Sign In</button></NavLink>
-                        <NavLink to="/"><button className="button button-secondary">Cancel</button></NavLink> */}
-
-                        {/* <button className="button" type="submit">Sign In</button>
-                        <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button> */}
-
-                        <NavLink to='/' className="button" onClick={() => context.signIn(this.state.emailAddress, this.state.password)} >Sign In</NavLink>
-                        <NavLink className="button button-secondary" to="/">Cancel</NavLink>
+                        <button className="button" type="submit">Sign In</button>
+                        <button className="button button-secondary" type="button" onClick={this.handleCancel}>Cancel</button>
                     </form>
                     <p>Don't have a user account? Click here to <NavLink to="/signup">sign up</NavLink>!</p>
                 </div>
@@ -76,6 +77,6 @@ class UserSignIn extends Component {
 
 export default props => (
     <Consumer>
-        {context => <UserSignIn {...props} value={context} />}
+        {context => <UserSignIn {...props} context={context} />}
     </Consumer>
 )

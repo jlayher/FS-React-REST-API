@@ -75,17 +75,19 @@ router.post('/courses', authenticateUser, asyncHandler(async (req, res) => {
 router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
     try {
         const course = await Course.findByPk(req.params.id);
-        const currentUser = req.currentUser;
-        //if (course) {
+        if (course) {
+            const currentUser = req.currentUser;
             if (course.userId === currentUser.id) {
                 await course.update(req.body);
-                res.status(204).end();
+                res.status(204).json();
             } else {
                 res.status(403).json( {'message': 'You do not have authorization to make changes to this course'})
             }
-        //}
+        } else {
+            res.status(404).json({"message": "404 Error: The Requested Course Could Not be Found"});
+        }
     } catch (error) {
-        console.error(error);
+        //console.error(error);
         if (error.name === 'SequelizeValidationError') {
             const errors = error.errors.map(error => error.message);
             res.status(400).json({ errors });
@@ -94,6 +96,30 @@ router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
         }
     }
 }));
+
+//Old Put Req
+// router.put('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {
+//     try {
+//         const course = await Course.findByPk(req.params.id);
+//         if (course) {
+//             const currentUser = req.currentUser;
+//             if (course.userId === currentUser.id) {
+//                 await course.update(req.body);
+//                 res.status(204).json();
+//             } else {
+//                 res.status(403).json( {'message': 'You do not have authorization to make changes to this course'})
+//             }
+//         } else {
+//             res.status(404).json({"message": "404 Error: The Requested Course Could Not be Found"});
+//         }
+//     } catch (error) {
+//         //console.error(error);
+//         if (error.name === 'SequelizeValidationError') {
+//             const errors = error.errors.map(error => error.message);
+//             res.status(400).json({ errors });
+//         }
+//     }
+// }));
 
 // DELETE a course
 router.delete('/courses/:id', authenticateUser, asyncHandler(async (req, res) => {

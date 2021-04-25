@@ -39,14 +39,16 @@ class UpdateCourse extends Component {
                     materialsNeeded: res.data.materialsNeeded,
                     estimatedTime: res.data.estimatedTime,
                 });
+                console.log(res.status)
             })
             //Error Redirect Issues
             .catch((err) => {
-                if(err.response.status === 404) {
-                    this.props.history.push('/notfound');
-                } else {
-                    this.props.history.push('/error')
-                }
+                console.log(err.response.status)
+                // if(err.response.status === 404) {
+                //     this.props.history.push('/notfound');
+                // } else {
+                //     this.props.history.push('/error')
+                // }
             });
     }
 
