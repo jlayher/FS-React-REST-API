@@ -85,7 +85,7 @@ class CreateCourse extends Component {
                                     </ul>
                                 </div> 
                             )}
-                            <form>
+                            <form onSubmit={this.handleSubmit}>
                                 <div className="main--flex">
                                     <div>
                                         <label htmlFor="courseTitle">Course Title</label>
@@ -134,8 +134,12 @@ class CreateCourse extends Component {
                                         </textarea>
                                     </div>
                                 </div>
-                                <NavLink className="button" to="/" onClick={this.handleSubmit}>Create Course</NavLink>
-                                <NavLink className="button button-secondary" to="/">Cancel</NavLink>
+                                {/* Change from NavLink to buttons */}
+                                <button className="button" type="submit">Create Course</button>
+                                <NavLink to="/"><button className="button button-secondary">Cancel</button></NavLink>
+                                
+                                {/* <NavLink className="button" to="/" onClick={this.handleSubmit}>Create Course</NavLink> */}
+                                {/* <NavLink className="button button-secondary" to="/">Cancel</NavLink> */}
                             </form>
                         </div>
                     </main>

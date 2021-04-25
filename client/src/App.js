@@ -55,6 +55,8 @@ class App extends Component {
     }
   }
 
+  //update this component somehow.  getting an error when not signed in
+    //Think this issue has been fixed but test again later
     signIn = async (emailAddress, password) => {
     const url = 'http://localhost:5000/api/users';
     axios.get(url, {
