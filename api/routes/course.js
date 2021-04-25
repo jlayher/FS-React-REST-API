@@ -48,7 +48,11 @@ router.get('/courses/:id', asyncHandler(async (req, res) => {
             ]
         }
     });
-    res.json(course);
+    if (course) {
+        res.json(course);
+    } else {
+        res.status(404).json({"message": "The Requested Course Could Not be Found"});
+    }
 }));
 
 // POST (create) new course

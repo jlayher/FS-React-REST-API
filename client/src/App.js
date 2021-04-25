@@ -128,8 +128,9 @@ class App extends Component {
               <Route exact path="/signin" render={(props) => <UserSignIn {...props}/>} />
               <Route exact path="/signup" render={(props) => <UserSignUp {...props}/>} />
               <Route exact path="/signout" render={() => <UserSignOut />} />
-              <Route path="/forbidden" render={()=> <Forbidden />} />
-              <Route path="/error" render={() => <UnhandledError />} />
+              <Route exact path="/forbidden" render={()=> <Forbidden />} />
+              <Route exact path="/error" render={() => <UnhandledError />} />
+              <Route exact path="/notfound" component={NotFound}/>
               <Route component={NotFound} />
             </Switch>
           </div>

@@ -28,21 +28,22 @@ class CourseDetail extends Component {
         this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
     }
 
+    //Most Recent Attempt
     componentDidMount() {
         const { id } = this.props.match.params;
         axios.get(`http://localhost:5000/api/courses/${id}`)
             .then(res => {
                 this.setState({ course: res.data, user: res.data.User});
             })
-            //Error Redirect Issues
-            .catch(error =>{
-                if(error.status === 404) {
+            .catch((err) => {
+                if(err.response.status === 404){
                     this.props.history.push('/notfound');
-                } else if(error.status === 500) {
+                }else{
                     this.props.history.push('/error')
                 }
-            });
-    }
+            })
+        }
+
 
     //Create a handleDeleteCourse function to Delete a Course
     handleDeleteCourse = (event) => {
@@ -119,10 +120,7 @@ class CourseDetail extends Component {
         );
     }
 }
-
-//Double Check This Code.  Intended use is using props outside the render method, 
-
-//Check to see that this is working correctly after authentication is set up.  
+ 
 export default props => (
     <Consumer>
         {context => <CourseDetail {...props} value={context} />}
