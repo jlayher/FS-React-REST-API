@@ -28,6 +28,7 @@ class UpdateCourse extends Component {
         this.handleCancel = this.handleCancel.bind(this);
     }
 
+    //set state based on course id
     async componentDidMount() {
         const { id } = this.props.match.params;
         await axios.get(`http://localhost:5000/api/courses/${id}`)
@@ -40,28 +41,24 @@ class UpdateCourse extends Component {
                 });
                 console.log(res.status)
             })
-            //Error Redirect Issues
             .catch((err) => {
                 console.log(err.response.status)
-                // if(err.response.status === 404) {
-                //     this.props.history.push('/notfound');
-                // } else {
-                //     this.props.history.push('/error')
-                // }
             });
     }
 
+    //Change state for inputs
     handleChange(event) {
         this.setState({ [event.target.name] : event.target.value });
      }
 
+     //Cancel Button Functionality 
      handleCancel(event) {
          event.preventDefault();
          const {id} = this.props.match.params;
          this.props.history.push(`/courses/${id}`)
      }
 
-
+    //When Submitted, PUT the Updates (Course) to the Database
     handleSubmit = (event) => {
         event.preventDefault();
         const {id} = this.props.match.params;
@@ -167,7 +164,6 @@ class UpdateCourse extends Component {
                                             onChange={this.handleChange}></textarea>
                                     </div>
                                 </div>
-                                {/* Change from NavLink to buttons */}
                                 <button className="button" type="submit">Update Course</button>
                                 <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
                             </form>
