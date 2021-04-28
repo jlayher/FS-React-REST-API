@@ -12,7 +12,7 @@ import axios from 'axios';
 import { NavLink } from 'react-router-dom';
 import { Consumer } from '../components/context';
 
-//import Markdown for Exceeds-Excpectations Requirements 
+//import Markdown
 import ReactMarkdown from 'react-markdown';
 
 //import js-cookies
@@ -28,7 +28,7 @@ class CourseDetail extends Component {
         this.handleDeleteCourse = this.handleDeleteCourse.bind(this);
     }
 
-    //Most Recent Attempt
+    //get specific course from api using id
     componentDidMount() {
         const { id } = this.props.match.params;
         axios.get(`http://localhost:5000/api/courses/${id}`)
@@ -43,7 +43,6 @@ class CourseDetail extends Component {
                 }
             })
         }
-
 
     //Create a handleDeleteCourse function to Delete a Course
     handleDeleteCourse = (event) => {
@@ -63,7 +62,6 @@ class CourseDetail extends Component {
                 this.props.history.push('/')
                 console.log(`${this.props.value.state.emailAddress} ${this.props.value.state.password}`)
             })
-            //Error Redirect Issues (just add 500 error)
             .catch((err) => {
                 window.alert("You do not have permission to delete this course");
                 console.log(err);
@@ -104,12 +102,8 @@ class CourseDetail extends Component {
                                     <div>
                                         <h3 className="course--detail--title">Estimated Time</h3>
                                         <p>{this.state.course.estimatedTime}</p>
-
                                         <h3 className="course--detail--title">Materials Needed</h3>
-                                        {/* commented out the <ul> because the <ReactMardown> Component wasn't rendering correctly*/}
-                                        {/* <ul className="course--detail--list"> */}
                                         <ReactMarkdown source={this.state.course.materialsNeeded} />
-                                        {/* </ul> */}
                                     </div>
                                 </div>
                             </form>

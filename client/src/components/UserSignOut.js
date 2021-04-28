@@ -6,7 +6,7 @@ import React, { useContext, useEffect } from 'react';
 import {UserContext} from './context';
 import {Redirect} from 'react-router-dom'
 
-//Creates the same error as using Consumer did
+//Sign out user and redirect to the home page
 export default function UserSignOut() {
     const userContext = useContext(UserContext)
     useEffect(() => {
