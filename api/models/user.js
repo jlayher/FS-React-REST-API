@@ -51,10 +51,6 @@ module.exports = (sequelize) => {
         password: {
             type: DataTypes.STRING,
             allowNull: false,
-            set(val) {
-                const hashedPassword = bcrypt.hashSync(val, 10);
-                this.setDataValue('password', hashedPassword);
-            },
             validate: {
                 notNull: {
                     msg: 'A Password is Required'
@@ -65,6 +61,8 @@ module.exports = (sequelize) => {
             }
         }
     }, { sequelize });
+
+    User.addHook("beforeCreate", user => (user.password = bcrypt.hashSync(user.password, 10)));
 
     // Set one-to-many association
     User.associate = (models) => {

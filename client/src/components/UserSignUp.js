@@ -103,7 +103,6 @@ class UserSignUp extends Component {
                                 <input id="password" name="password" type="password" value={this.state.password} onChange={this.handleChange} />
                                 <label htmlFor="confirmPassword">Confirm Password</label>
                                 <input id="confirmPassword" name="confirmPassword" type="password" value={this.state.confirmPassword} onChange={this.handleChange} />
-                                {/* Change from NavLink to buttons */}
                                 <button className="button" type="submit">Sign Up</button>
                                 <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
                             </form>
