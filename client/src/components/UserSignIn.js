@@ -14,43 +14,40 @@ class UserSignIn extends Component {
         super();
         this.state = {
             emailAddress: '',
-            password: ''
+            password: '',
+            isAuthenticated: '',
+            errors: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+    //use context
     static contextType = UserContext;
 
+    //Cancel Button Functionality
     handleCancel(event) {
         event.preventDefault();
         this.props.history.push('/')
     }
 
+    //Change state for inputs
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
 
-    //!!! IMPORTANT!!!
-    //This is probably where I will need to push prevHistory to redirect 
+    //Sign in the user
     handleSubmit = (event) => {
         event.preventDefault();
-        //this line was working
         let context = this.context;
-        // const {context} = this.props;
-        // const prevPage = this.props.location.state.from.pathname || { from: { pathname: '/' } };
-        const prevPage = this.props.history.location.state.from.pathname;
-        //const { from } = this.props.location.state || { from: { pathname: '/' } };
-        console.log(prevPage);
-        // console.log(from.pathname)
-
-        //something weird is going on here.  If I accidentally hit submit when I'm already signed in, authentication fails, 
-        //and I am pushed back to the previous page.
-        //but if authentication succeeds, I am logged in, but stay on the sign in page.  
-        this.props.history.push(prevPage);
-        context.signIn(this.state.emailAddress, this.state.password);
+        if(this.state.emailAddress === "" || this.state.password ==="" ) {
+            window.alert("Please Provide Values for both the Email Address, and Password Fields")
+        }else {
+            context.signIn(this.state.emailAddress, this.state.password);
+            this.props.history.goBack()
+        }
     }
 
     render() {
@@ -75,8 +72,11 @@ class UserSignIn extends Component {
     }
 }
 
-export default props => (
+const UserSignInWithContext = (props) =>{
+    return( 
     <Consumer>
         {context => <UserSignIn {...props} context={context} />}
     </Consumer>
-)
+    ) 
+}
+export default UserSignInWithContext;

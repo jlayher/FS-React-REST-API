@@ -4,11 +4,6 @@ by retrieving the list of courses from "/api/courses"
 Each course links to its associated "Course Detail" page, as well as 
 a Link to the "Create Course" page
 */
-
-
-
-
-// NEED TO MAKE SURE URL MATCHES PATH
 import React, {Component} from 'react';
 import { NavLink } from 'react-router-dom';
 import axios from 'axios';

@@ -27,17 +27,20 @@ class UserSignUp extends Component {
         this.handleCancel = this.handleCancel.bind(this);
     }
 
+    //Change state for inputs
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
 
+    //Cancel Button Functionality       
     handleCancel(event) {
         event.preventDefault();
         this.props.history.push('/')
     }
 
+    //When Submitted, POST the New User to the Database
     handleSubmit = (event) => {
         event.preventDefault();
         const url = 'http://localhost:5000/api/users';
@@ -114,8 +117,11 @@ class UserSignUp extends Component {
     }
 }
 
-export default props => (
+const UserSignUpWithContext = (props) =>{
+    return( 
     <Consumer>
-        {context => <UserSignUp {...props} value={context} />}
+        {context => <UserSignUp {...props} context={context} />}
     </Consumer>
-)
+    ) 
+}
+export default UserSignUpWithContext;

@@ -121,8 +121,11 @@ class CourseDetail extends Component {
     }
 }
  
-export default props => (
-    <Consumer>
-        {context => <CourseDetail {...props} value={context} />}
-    </Consumer>
-)
+const CourseDetailWithContext = (props) =>{
+    return( 
+        <Consumer>
+            {context => <CourseDetail {...props} value={context} />}
+        </Consumer>
+    ) 
+}
+export default CourseDetailWithContext;

@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+
+//import Axios
 import axios from 'axios';
 
 //imports from React Router DOM
@@ -14,22 +16,22 @@ import { Provider } from './components/context';
 //import components
 import Header from './components/Header';
 import Courses from './components/Courses';
-import CreateCourse from './components/CreateCourse';
-import UpdateCourse from './components/UpdateCourse';
-import CourseDetail from './components/CourseDetail';
-import UserSignIn from './components/UserSignIn';
-import UserSignUp from './components/UserSignUp';
+import CreateCourseWithContext from './components/CreateCourse';
+import UpdateCourseWithContext from './components/UpdateCourse';
+import CourseDetailWithContext from './components/CourseDetail';
+import UserSignInWithContext from './components/UserSignIn';
+import UserSignUpWithContext from './components/UserSignUp';
 import UserSignOut from './components/UserSignOut';
-
 import Forbidden from './components/Forbidden';
 import UnhandledError from './components/UnhandledError';
 import NotFound from './components/NotFound';
-
 import PrivateRoute from './components/PrivateRoute';
 
 //import styles
 import './styles/global.css';
 
+
+//Create Container App Component.  Provides the user Context
 class App extends Component {
   constructor(props) {
     super(props);
@@ -47,6 +49,7 @@ class App extends Component {
       this.signOut = this.signOut.bind(this);
   }
 
+  //on mount set cookies and persist authentication
   componentDidMount() {
     let username = Cookies.get("username");
     let password = Cookies.get("password");
@@ -55,8 +58,7 @@ class App extends Component {
     }
   }
 
-  //update this component somehow.  getting an error when not signed in
-    //Think this issue has been fixed but test again later
+    //Sign in Component shared through Context to Child Components
     signIn = async (emailAddress, password) => {
     const url = 'http://localhost:5000/api/users';
     axios.get(url, {
@@ -80,11 +82,6 @@ class App extends Component {
           Cookies.set('username', emailAddress, {expires: 1})
           Cookies.set('password', password, {expires: 1})
           console.log(`${res.data.emailAddress} has been Authenticated`);
-
-          //succeeded
-          //this.props.history
-          //history.push() last page
-
         }
       })
       .catch(err => {
@@ -93,6 +90,7 @@ class App extends Component {
       })
   }
 
+  //signOut function passed to the UserSignOut Component
   signOut() {
     this.setState({
       user: {
@@ -107,6 +105,7 @@ class App extends Component {
     Cookies.remove('password')
   }
 
+  //Provider and Routes
   render(){
     return (
       <Provider value={{
@@ -122,11 +121,11 @@ class App extends Component {
                 {<Redirect to="/courses"/>}
               </Route>
               <Route exact path="/courses" render={() => <Courses />} />
-              <PrivateRoute exact path="/courses/create" component={ CreateCourse } user={this.state.user}/>
-              <PrivateRoute exact path="/courses/:id/update" component={ UpdateCourse } user={this.state.user}/>
-              <Route exact path="/courses/:id" render={(props) => <CourseDetail {...props}/>} />
-              <Route exact path="/signin" render={(props) => <UserSignIn {...props}/>} />
-              <Route exact path="/signup" render={(props) => <UserSignUp {...props}/>} />
+              <PrivateRoute exact path="/courses/create" component={ CreateCourseWithContext } user={this.state.user}/>
+              <PrivateRoute exact path="/courses/:id/update" component={ UpdateCourseWithContext } user={this.state.user}/>
+              <Route exact path="/courses/:id" render={(props) => <CourseDetailWithContext {...props}/>} />
+              <Route exact path="/signin" render={(props) => <UserSignInWithContext {...props}/>} />
+              <Route exact path="/signup" render={(props) => <UserSignUpWithContext {...props}/>} />
               <Route exact path="/signout" render={() => <UserSignOut />} />
               <Route exact path="/forbidden" render={()=> <Forbidden />} />
               <Route exact path="/error" render={() => <UnhandledError />} />

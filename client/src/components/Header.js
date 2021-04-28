@@ -16,6 +16,7 @@ const Header = (props) => {
                     <div className="wrap header--flex">
                         <h1 className="header--logo"><Link to="/">Courses</Link></h1>
                         <nav>
+                            {/* Display links depending on authentication */}
                             {context.state.isAuthenticated ? (
                                 <ul className="header--signedin">
                                     <li>Welcome, {context.state.firstName} {context.state.lastName}!</li>

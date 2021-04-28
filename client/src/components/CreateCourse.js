@@ -7,13 +7,11 @@ It also renders a "Cancel" button that returns the client to the course list.
 */
 
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
 import { Consumer } from './context';
 import axios from 'axios';
 
 //import js-cookies
 import Cookies from 'js-cookie';
-
 
 class CreateCourse extends Component {
     constructor(props) {
@@ -29,18 +27,18 @@ class CreateCourse extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
     }
-
+    //Change state for inputs
     handleChange(event) {
         this.setState({ [event.target.name] : event.target.value });
-        //console.log(this.context.props.userId);
-        //console.log(this.context.props.userId);
      }
 
+    //Cancel Button Functionality 
     handleCancel(event) {
         event.preventDefault();
         this.props.history.push('/')
     }
 
+    //When submitted, POST the New Course to the Database
     handleSubmit = (event) => {
         event.preventDefault();
         const url = 'http://localhost:5000/api/courses';
@@ -140,12 +138,8 @@ class CreateCourse extends Component {
                                         </textarea>
                                     </div>
                                 </div>
-                                {/* Change from NavLink to buttons */}
                                 <button className="button" type="submit">Create Course</button>
                                 <button className="button button-secondary" onClick={this.handleCancel}>Cancel</button>
-                                
-                                {/* <NavLink className="button" to="/" onClick={this.handleSubmit}>Create Course</NavLink> */}
-                                {/* <NavLink className="button button-secondary" to="/">Cancel</NavLink> */}
                             </form>
                         </div>
                     </main>
@@ -155,8 +149,12 @@ class CreateCourse extends Component {
     }
 }
 
-export default props => (
+const CreateCourseWithContext = (props) =>{
+    return( 
     <Consumer>
         {context => <CreateCourse {...props} context={context} />}
     </Consumer>
-)
+    ) 
+}
+export default CreateCourseWithContext;
+

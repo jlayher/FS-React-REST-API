@@ -7,7 +7,6 @@ It also renders a "Cancel" button that returns the client to the "Course Detail"
 */
 
 import React, {Component} from 'react';
-import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import { Consumer } from './context';
 
@@ -101,7 +100,6 @@ class UpdateCourse extends Component {
     }
 
     render(){
-        const { id } = this.props.match.params;
         const placeholderTitle = this.state.courseTitle;
         const placeholderDescription = this.state.courseDescription;
         return(
@@ -181,10 +179,13 @@ class UpdateCourse extends Component {
         );
     }
 }
-    
-export default props => (
+
+const UpdateCourseWithContext = (props) =>{
+    return( 
     <Consumer>
         {context => <UpdateCourse {...props} context={context} />}
     </Consumer>
-)
+    ) 
+}
+export default UpdateCourseWithContext;
 
