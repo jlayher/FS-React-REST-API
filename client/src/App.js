@@ -117,10 +117,7 @@ class App extends Component {
           <div>
             <Header />
             <Switch>
-              <Route exact path="/">
-                {<Redirect to="/courses"/>}
-              </Route>
-              <Route exact path="/courses" render={() => <Courses />} />
+              <Route exact path="/" render={() => <Courses />} />
               <PrivateRoute exact path="/courses/create" component={ CreateCourseWithContext } user={this.state.user}/>
               <PrivateRoute exact path="/courses/:id/update" component={ UpdateCourseWithContext } user={this.state.user}/>
               <Route exact path="/courses/:id" render={(props) => <CourseDetailWithContext {...props}/>} />

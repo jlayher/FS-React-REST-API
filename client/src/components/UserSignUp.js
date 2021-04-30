@@ -8,7 +8,7 @@ The component also renders a "Cancel" button that returns the client to the cour
 
 import React, {Component} from 'react';
 import { NavLink } from 'react-router-dom';
-import { Consumer } from './context';
+import { Consumer, UserContext } from './context';
 import axios from 'axios';
 
 class UserSignUp extends Component {
@@ -27,6 +27,9 @@ class UserSignUp extends Component {
         this.handleCancel = this.handleCancel.bind(this);
     }
 
+    //use context
+    static contextType = UserContext;
+
     //Change state for inputs
     handleChange = (event) => {
         this.setState({
@@ -43,9 +46,10 @@ class UserSignUp extends Component {
     //When Submitted, POST the New User to the Database
     handleSubmit = (event) => {
         event.preventDefault();
+        
         const url = 'http://localhost:5000/api/users';
         this.setState({errors: []});
-        
+        let context = this.context;
         if (this.state.password === this.state.confirmPassword) {
             axios({
                 method: 'post',
@@ -59,20 +63,25 @@ class UserSignUp extends Component {
                 }
             })
             .then(res => {
-                this.props.value.signIn(this.state.emailAddress, this.state.password);
-                this.props.history.push('/');
-            })
+                    context.signIn(this.state.emailAddress, this.state.password);
+                    // this.props.value.signIn(this.state.emailAddress, this.state.password);
+                    this.props.history.push('/');
+                }
+            )
             .catch((err) => {
                 if(err.response.status === 400) {
                     this.setState({
                         errors: err.response.data.errors
                     })
-                } 
+                } else {
+                    console.log(err)
+                }
             })
         } else {
             window.alert("Your Password does not match your Confirmed Password");
         }
     }
+
 
     render(){
         return(
