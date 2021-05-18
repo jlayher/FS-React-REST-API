@@ -4,7 +4,6 @@
 const express = require('express');
 const morgan = require('morgan');
 
-//  New Addition: 
 // Require CORS
 const cors = require('cors');
 
@@ -15,6 +14,8 @@ const { sequelize } = require('./models');
 const courseRoutes = require('./routes/course');
 const userRoutes = require('./routes/user');
 
+// set port
+let PORT = process.env.PORT || 5000;
 
 // variable to enable global error logging
 const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'true';
@@ -22,7 +23,6 @@ const enableGlobalErrorLogging = process.env.ENABLE_GLOBAL_ERROR_LOGGING === 'tr
 // create the Express app
 const app = express();
 
-//  New Addition:
 // Use Cors
 app.use(cors());
 
@@ -74,9 +74,17 @@ app.use((err, req, res, next) => {
 });
 
 // set our port
-app.set('port', process.env.PORT || 5000);
+// comenting out while testing 
+//app.set('port', process.env.PORT || 5000);
+
+//
 
 // start listening on our port
-const server = app.listen(app.get('port'), () => {
-  console.log(`Express server is listening on port ${server.address().port}`);
+app.listen(process.env.PORT || PORT, () => {
+  console.log(`Express server is listening on port ${PORT}`);
 });
+
+//old code
+// const server = app.listen(app.get('port'), () => {
+//   console.log(`Express server is listening on port ${server.address().port}`);
+// });
