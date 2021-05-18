@@ -4,14 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon ./app.js",
     "seed": "cross-env DB_ENABLE_LOGGING=true node './seed'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "gh-pages": "^3.1.0",
     "nodemon": "^1.18.3"
   },
   "dependencies": {
