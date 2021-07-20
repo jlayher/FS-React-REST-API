@@ -1,5 +1,4 @@
-# JS-Project-10
- JS Project 10: Full-Stack App
+Full-Stack JavaScript REST API
 
 This is a full-stack web application that allows for the sign in and sign up of users, as well as basic CRUD operations for users to Get, Create, Update, and Delete a number of "Courses" from the database.  
 
