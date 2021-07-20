@@ -1,3 +1,7 @@
+/*
+The Unhandled Error Component renders the "Unhandled Error" page, for when 
+server side errors occur.
+*/
 import React from 'react';
 
 const UnhandledError = () => {

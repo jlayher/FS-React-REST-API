@@ -1,3 +1,6 @@
+/*
+The Not Found Component renders the "Not Found" page.
+*/
 import React from 'react';
 
 const NotFound = () => {

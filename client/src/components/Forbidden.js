@@ -1,3 +1,6 @@
+/*
+The Forbidden Component renders the "Forbidden" page.
+*/
 import React from 'react';
 
 const Forbidden = () => {

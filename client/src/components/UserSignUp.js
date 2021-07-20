@@ -64,7 +64,6 @@ class UserSignUp extends Component {
             })
             .then(res => {
                     context.signIn(this.state.emailAddress, this.state.password);
-                    // this.props.value.signIn(this.state.emailAddress, this.state.password);
                     this.props.history.push('/');
                 }
             )
